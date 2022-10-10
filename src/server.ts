@@ -1,6 +1,7 @@
-import express from "express";
+import path from "path";
 import { routes } from "./routes";
-// import path from "path";
+// import express from "express";
+import express from "express";
 
 // criei um servidor
 const server = express();
@@ -15,4 +16,4 @@ server.listen(3333, () => {
 });
 
 server.use("/", routes);
-// server.use("/files", express.static(path.join(__dirname, "data")));
+server.use("/files", express.static(path.join(__dirname, "data")));

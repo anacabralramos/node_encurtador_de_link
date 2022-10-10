@@ -1,32 +1,30 @@
-import { Request, Response } from "express";
 import repository from "./repository";
 
-const serviceShortenUrl = (newUrl: string) => {
+const serviceShortenUrl = async (newUrl: string) => {
   try {
     const crypto = require("crypto");
     const shortedUrl = crypto.randomBytes(3).toString("hex");
 
-    const file: any = JSON.parse(repository.repositoryRead());
     const obj = {
-      ...file,
+      original: `${newUrl}`,
+      shortened: `${shortedUrl}`,
     };
-    obj[shortedUrl] = newUrl;
-
-    const data = JSON.stringify(obj);
-    repository.repositoryWrite(data);
-
+    repository.repositoryWrite(obj);
     console.log("Escrito com suceeesso :D");
+
     return shortedUrl;
   } catch (error: any) {
     return error.message;
   }
 };
 
-const serviceRedirect = (url: string) => {
-  const data: any = JSON.parse(repository.repositoryRead());
-  if (data[url]) {
+const serviceRedirect = async (url: string) => {
+  const data: any = await repository.repositoryRead(url);
+
+  if (data) {
+    const foundUrl = data.find((element: any) => true);
     console.log("Lido com suceeesso :D");
-    return { find: true, message: data[url] };
+    return { find: true, message: foundUrl.original };
   }
   return { find: false, message: "Não foi possível ler este arquivo :/" };
 };

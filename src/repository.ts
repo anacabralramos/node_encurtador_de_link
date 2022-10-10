@@ -1,18 +1,22 @@
 import { readFileSync, writeFileSync } from "fs";
+// var database = require("./server.ts");
+var knex = require("./database/connection");
 
-const repositoryRead = () => {
-  return readFileSync(
-    "C:\\Users\\Ana Ramos\\Documents\\SOLUTIONS LAB\\first weak\\node_encurtador_de_link\\src\\data\\urls.json",
-    { encoding: "utf8", flag: "r" }
-  );
+const repositoryRead = async (url: any) => {
+  var query = await knex
+    .select(["original"])
+    .table("urls")
+    .where({ shortened: `${url}` });
+
+  return query;
 };
 
-const repositoryWrite = (data: any) => {
-  writeFileSync(
-    "C:\\Users\\Ana Ramos\\Documents\\SOLUTIONS LAB\\first weak\\node_encurtador_de_link\\src\\data\\urls.json",
-    data,
-    { flag: "w" }
-  );
+const repositoryWrite = async (data: any) => {
+  var query = await knex
+    .insert({ original: `${data.original}`, shortened: `${data.shortened}` })
+    .into("urls");
+
+  return query;
 };
 
 export default { repositoryRead, repositoryWrite };
