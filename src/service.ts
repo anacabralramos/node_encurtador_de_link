@@ -24,9 +24,11 @@ const serviceRedirect = async (url: string) => {
   if (data) {
     const foundUrl = data.find((element: any) => true);
     console.log("Lido com suceeesso :D");
-    return { find: true, message: foundUrl.original };
+
+    if (foundUrl) return { find: true, message: foundUrl.original };
+    else return { find: false, message: "nOt fOuNd !!! ;p" };
   }
-  return { find: false, message: "Não foi possível ler este arquivo :/" };
+  return { find: false, message: "eRRor Req !!! ;p" };
 };
 
 export default { serviceShortenUrl, serviceRedirect };

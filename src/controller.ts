@@ -13,7 +13,7 @@ const redirect = async (request: Request, response: Response) => {
   if (result.find) {
     console.log(result.message);
     return response.redirect(`${result.message}`);
-  } else return response.status(400).json(`${result.message}`);
+  } else return response.status(400).json({ message: `${result.message}` });
 };
 
 export default { shortenUrl, redirect };

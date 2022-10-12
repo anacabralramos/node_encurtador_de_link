@@ -1,5 +1,3 @@
-import { readFileSync, writeFileSync } from "fs";
-// var database = require("./server.ts");
 var knex = require("./database/connection");
 
 const repositoryRead = async (url: any) => {
